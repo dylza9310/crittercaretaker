@@ -3,22 +3,22 @@
   
 
 def plantSeed(self):
-    evolution = self.happiness
-    if  evolution > 0:
+    evolution = self.water - self.boredom
+    if  evolution == 0:
         print("///////////")
         print("///--O--///")
         print("///////////\n")
-    elif  evolution > 100:
+    elif  evolution == 10:
         print("     |     ")
         print("///--O--///")
         print("///////////")
         print("///////////\n")
-    elif evolution > 200:
+    elif evolution == 20:
         print("     |     ")
         print("     |     ")
         print("///--O--///")
         print("///////////\n")
-    elif evolution > 300:
+    elif evolution == 30:
         print("   // \\    ")
         print("  -- o --   ")
         print("   \\|//    ")
@@ -59,7 +59,7 @@ class PlantCritter(object):
     
     def __pass_time(self):
         self.water += 1
-        self.happiness -= 1
+        self.boredom -= 1
 
     def water_plant(self, food= 4):
         print("Glug glug... Your plant has been watered.")
@@ -74,6 +74,13 @@ class PlantCritter(object):
         if self.boredom < 0:
             self.boredom = 0
         self.__pass_time()
+
+    def check_status(self):
+        print("Plant Name: " + self.name)
+        print("Water Level: " + str(self.water))
+        print("Boredom Level: " + str(self.boredom))
+        print("Happiness Level: " + str(self.water - self.boredom))
+        print(self.__stats())
     
     
         
@@ -97,17 +104,18 @@ def main():
         
         choice = input("Choice: ")
         
-        if choice == "1":
-            crit.water_plant()
-            print(crit.__stats__())
+        #Exit the program
+        if choice == "0":
+           print("Goodbye!")
+        #Water the plant
+        elif choice == "1":
+           crit.water_plant()
+        #Play with the plant
         elif choice == "2":
             crit.play_with_plant()
-            print(crit.__stats__())
+        #Check plant status
         elif choice == "3":
-            print(crit.__stats__())
-        elif choice == "4":
-            print(crit.mood())
-        else: choice == "0":
+            crit.check_status()
 
 
 input("\n\nPress enter to exit.")
