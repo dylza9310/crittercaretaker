@@ -27,7 +27,7 @@ def plantSeed(self):
         print("///////////\n")
 
 def mood(self):
-    unhappiness = self.water + self.happiness
+    unhappiness = self.water + self.boredom
     if unhappiness < 5:
         return "Your plant is thriving!"
     elif 5 <= unhappiness < 10:
@@ -40,7 +40,7 @@ def mood(self):
 class PlantCritter(object):
     """A virtual pet"""
     
-    def initialize(self, name, water=0, happiness=10):
+    def initialize(self, name, water=0, boredom=0):
         import time
         print("Planting...")
         time.sleep(2)
@@ -48,7 +48,7 @@ class PlantCritter(object):
         plantSeed()
         self.name = name # public attribute
         self.water = water # public attribute
-        self.happiness = happiness # public attribute
+        self.boredom = boredom # public attribute
 
 
     def __stats__(self):
@@ -67,16 +67,48 @@ class PlantCritter(object):
         if self.water < 0:
             self.water = 0
         self.__pass_time()
+
+    def play_with_plant(self, fun= 4):
+        print("Your plant is playing with you!")
+        self.boredom -= fun
+        if self.boredom < 0:
+            self.boredom = 0
+        self.__pass_time()
     
     
         
      
 
 #Main
-pcrit = PlantCritter()
-pcrit.initialize("Fernie")
-print(pcrit)
-print(pcrit.mood)
+def main():
+    pcrit_name = input("What would you like to name your plant? ")
+    crit = PlantCritter(pcrit_name)
+
+    choice = None
+    while choice != "0":
+        print("""
+        Plant Caretaker Module
+        0 - Exit
+        1 - Water the plant
+        2 - Play with the plant
+        3 - Check plant status
+        4 - Check plant mood
+        """)
+        
+        choice = input("Choice: ")
+        
+        if choice == "1":
+            crit.water_plant()
+            print(crit.__stats__())
+        elif choice == "2":
+            crit.play_with_plant()
+            print(crit.__stats__())
+        elif choice == "3":
+            print(crit.__stats__())
+        elif choice == "4":
+            print(crit.mood())
+        else: choice == "0":
+
 
 input("\n\nPress enter to exit.")
 
