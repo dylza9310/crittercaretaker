@@ -8,17 +8,17 @@ def plantSeed(self):
         print("///////////")
         print("///--O--///")
         print("///////////\n")
-    elif  evolution == 10:
+    elif  evolution >= 1 and evolution < 10:
         print("     |     ")
         print("///--O--///")
         print("///////////")
         print("///////////\n")
-    elif evolution == 20:
+    elif evolution >= 11 and evolution <= 20:
         print("     |     ")
         print("     |     ")
         print("///--O--///")
         print("///////////\n")
-    elif evolution == 30:
+    elif evolution >= 21:
         print("   // \\    ")
         print("  -- o --   ")
         print("   \\|//    ")
@@ -26,65 +26,51 @@ def plantSeed(self):
         print("///-/-\-///")
         print("///////////\n")
 
-def mood(self):
-    unhappiness = self.water + self.boredom
-    if unhappiness < 5:
-        return "Your plant is thriving!"
-    elif 5 <= unhappiness < 10:
-        return "Your plant is doing okay, but could use some care."
-    elif 10 <= unhappiness < 15:
-        return "Your plant is unhappy and needs attention!"
-    
-
-
 class PlantCritter(object):
     """A virtual pet"""
     
-    def initialize(self, name, water=0, boredom=0):
-        import time
-        print("Planting...")
-        time.sleep(2)
-        print("Your plant is now ready to be cared for!")
-        plantSeed()
+    def __init__(self, name, water = 0, boredom = 0):
         self.name = name # public attribute
         self.water = water # public attribute
         self.boredom = boredom # public attribute
-
-
-    def __stats__(self):
-        rep = "Plant critter object\n"
-        rep += "- Name:" + self.name + "\n"
-        return rep
         
-    
     def __pass_time(self):
-        self.water += 1
-        self.boredom -= 1
+        self.water += 3
+        self.boredom -= 1.5
 
     def water_plant(self, food= 4):
         print("Glug glug... Your plant has been watered.")
-        self.water -= food
+        self.water += food
         if self.water < 0:
             self.water = 0
         self.__pass_time()
+        print("Water Level: " + str(self.water))
 
-    def play_with_plant(self, fun= 4):
+
+    def play_with_plant(self, fun= 2):
         print("Your plant is playing with you!")
         self.boredom -= fun
         if self.boredom < 0:
             self.boredom = 0
         self.__pass_time()
+        print("Boredom Level: " + str(self.boredom + fun))
 
-    def check_status(self):
+    def stats(self):
         print("Plant Name: " + self.name)
         print("Water Level: " + str(self.water))
         print("Boredom Level: " + str(self.boredom))
         print("Happiness Level: " + str(self.water - self.boredom))
-        print(self.__stats())
+    
+    def mood(self):
+        unhappiness = self.water + self.boredom
+        if unhappiness < 5:
+            print("Your plant is thriving!")
+        elif 5 <= unhappiness < 10:
+            print("Your plant is doing okay, but could use some care.")
+        elif 10 <= unhappiness < 15:
+            print("Your plant is unhappy and needs attention!")
     
     
-        
-     
 
 #Main
 def main():
@@ -115,10 +101,19 @@ def main():
             crit.play_with_plant()
         #Check plant status
         elif choice == "3":
-            crit.check_status()
+            crit.stats()
+        #Check plant mood
+        elif choice == "4":
+            crit.mood() # Work in progress
+
+        #Unknown choice
+        else:
+            print("Sorry, but", choice, "isn't a valid choice.")
+        
+        plantSeed(crit)
 
 
-input("\n\nPress enter to exit.")
+main()
 
 
 #Plant Caretaker Module
